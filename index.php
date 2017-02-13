@@ -9,13 +9,15 @@
         <script src="js/jquery.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script src="js/scripts.js"></script>
+        <script src="js/table_events.js"></script>
     </head>
 
     <body>
         <div>
-            <h1>Life cycle cost (LCC)</h1>
+            <img src="images/alstom.png" style="height:15px">
+            <h1>Life cycle cost | v0.1.3</h1>
             <button type="button" ID="AJAX_button" onclick="RUN_AJAX()">Run SAP Query</button>
-            <div id="piechart"></div>
+            <div id="chart"></div>
             <div>
                 <?php
                     $servername = "localhost";
