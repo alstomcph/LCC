@@ -13,17 +13,19 @@ function init_chart(inDiv) {
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
         data = google.visualization.arrayToDataTable([
-            ['Genre', 'Total Discard Cost', 'Total MMHACM Cost', 'Total Repair Cost', 'Total  Renewal Cost', 'Total MMHAPM Cost', { role: 'annotation' }],
+            ['Group', 'Total Discard Cost', 'Total MMHACM Cost', 'Total Repair Cost', 'Total  Renewal Cost', 'Total MMHAPM Cost', { role: 'annotation' }],
             ['Trackside Equipment', 10, 24, 20, 32, 18, ''],
             ['ATC (Trackside)', 16, 22, 23, 30, 16, ''],
             ['TCC TMS', 28, 19, 29, 30, 12, ''],
             ['Train Position, Detection & Integrity', 16, 22, 23, 30, 16, ''],
-            ['IXL', 16, 22, 23, 30, 16, '']
+            ['IXL', 16, 22, 23, 30, 16, ''],
+            ['Overall System', 12, 2, 3, 3, 6, ''],
+            ['Test Equipment', 16, 12, 23, 5, 3, '']
         ]);
 
         var options = {
             title: 'Total maintenance Cost (k€/year)',
-            width: '100%',
+            width: screen.width * 0.5,
             height: 400,
             legend: { position: 'top', maxLines: 3 },
             bar: { groupWidth: '75%' },
@@ -34,43 +36,59 @@ function init_chart(inDiv) {
 
         chart = new google.visualization.ColumnChart(document.getElementById(inDiv));
         google.visualization.events.addListener(chart, 'select', selectHandler);
+        google.visualization.events.addListener(chart, 'click', clickHandler);
         chart.draw(data, options);
     }
 }
+
+function clickHandler(e) {
+    var match = e.targetID.match(/hAxis#\d#label#(\d)/);
+    if (match != null && match.length) {
+        var rowIndex = parseInt(match[1]);
+        var label = data.getValue(rowIndex, 0);
+        fetchdata("SELECT * FROM const WHERE SubSystem = '" + label + "'");
+    }
+}
+
 function selectHandler() {
     var selection = chart.getSelection();
-    var message = '';
-    for (var i = 0; i < selection.length; i++) {
-        var item = selection[i];
-        if (item.row != null && item.column != null) {
+    if (selection.length) {
+        var item = selection[0];
+        if (item.row != null)
             var str = data.getFormattedValue(item.row, item.column);
-            var category = data
-                .getValue(chart.getSelection()[0].row, 0)
-            var type
-            if (item.column == 1) {
-                type = "sale";
-            } else if (item.column == 2) {
-                type = "Expense";
-            } else {
-                type = "Profit";
-            }
-            message += '{row:' + item.row + ',column:' + item.column
-                + '} = ' + str + '  The Category is:' + category
-                + ' it belongs to : ' + type + '\n';
-        } else if (item.row != null) {
-            var str = data.getFormattedValue(item.row, 0);
-            message += '{row:' + item.row
-                + ', column:none}; value (col 0) = ' + str
-                + '  The Category is:' + category + '\n';
-        } else if (item.column != null) {
-            var str = data.getFormattedValue(0, item.column);
-            message += '{row:none, column:' + item.column
-                + '}; value (row 0) = ' + str
-                + '  The Category is:' + category + '\n';
-        }
     }
-    if (message == '') {
-        message = 'nothing';
+    else {
+        selection = previous_selection;
     }
-    alert('You selected ' + message);
+
+    previous_selection = selection;
+    chartSelectSwitch(selection[0].row, selection[0].column);
+}
+
+function chartSelectSwitch(row, column){
+    if(row == null && column == 1){
+        drawSubChart()
+    }
+}
+
+function drawSubChart() {
+    var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+        ]);
+
+        var options = {
+          //title: 'My Daily Activities',
+          height: 600, 
+          width: 600,
+          pieHole: 0.4,
+          colors: ['#66a3ff', '#4d94ff', '#3385ff', '#1a75ff', '#0066ff', '#005ce6', '#0052cc']
+        };
+
+    chart = new google.visualization.PieChart(document.getElementById('subchart'));
+    chart.draw(data, options);
 }

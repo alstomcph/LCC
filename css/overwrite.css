@@ -2,3 +2,9 @@ body {
 	font-size: 12px;
 	padding: 1em;
 }
+td {
+	white-space: nowrap;
+}
+#charts{
+	display: inline-flex;
+}
