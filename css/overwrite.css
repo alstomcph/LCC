@@ -8,3 +8,6 @@ td {
 #charts{
 	display: inline-flex;
 }
+#chart{
+	width: 1890px;
+}

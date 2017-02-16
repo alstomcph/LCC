@@ -17,7 +17,10 @@
         <div>
             <img src="images/alstom.png" style="height:15px">
             <h1>Life cycle cost | v0.1.3</h1>
-            <button type="button" ID="AJAX_button" onclick="RUN_AJAX()">Ajax Chart Query</button>
+            <div id="buttons">
+                <button type="button" ID="AJAX_button" onclick="RUN_AJAX()">StackedBarChart</button>
+                <button type="button" ID="treeChartButton" onclick="drawTreeMapChart()">TreeMapChart</button>
+            </div>
             <div id="charts">
                 <div id="chart"></div>
                 <div id="subchart"></div>
