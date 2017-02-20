@@ -98,39 +98,6 @@ function drawTreeMapChart() {
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
         var data = google.visualization.arrayToDataTable(TableToArray());
-        /*
-        var data = google.visualization.arrayToDataTable([
-            ['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
-            ['Global', null, 0, 0],
-            ['America', 'Global', 0, 0],
-            ['Europe', 'Global', 0, 0],
-            ['Asia', 'Global', 0, 0],
-            ['Australia', 'Global', 0, 0],
-            ['Africa', 'Global', 0, 0],
-            ['Brazil', 'America', 11, 10],
-            ['USA', 'America', 52, 31],
-            ['Mexico', 'America', 24, 12],
-            ['Canada', 'America', 16, -23],
-            ['France', 'Europe', 42, -11],
-            ['Germany', 'Europe', 31, -2],
-            ['Sweden', 'Europe', 22, -13],
-            ['Italy', 'Europe', 17, 4],
-            ['UK', 'Europe', 21, -5],
-            ['China', 'Asia', 36, 4],
-            ['Japan', 'Asia', 20, -12],
-            ['India', 'Asia', 40, 63],
-            ['Laos', 'Asia', 4, 34],
-            ['Mongolia', 'Asia', 1, -5],
-            ['Israel', 'Asia', 12, 24],
-            ['Iran', 'Asia', 18, 13],
-            ['Pakistan', 'Asia', 11, -52],
-            ['Egypt', 'Africa', 21, 0],
-            ['S. Africa', 'Africa', 30, 43],
-            ['Sudan', 'Africa', 12, 2],
-            ['Congo', 'Africa', 10, 12],
-            ['Zaire', 'Africa', 8, 10]
-        ]);
-        */
         var options = {
             highlightOnMouseOver: true,
             maxDepth: 1,
@@ -154,43 +121,6 @@ function drawTreeMapChart() {
 }
 function TableToArray() {
     var dataTabelArray = [];
-    dataTabelArray.push(['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)']);
-    dataTabelArray.push(['Total LCC', null, 0, 0]);
-
-    dataTabelArray.push(['Trackside Equipment', 'Total LCC', 0, 0]);
-    dataTabelArray.push(['ATC (Trackside)', 'Total LCC', 0, 0]);
-    dataTabelArray.push(['TCC TMS', 'Total LCC', 0, 0]);
-    dataTabelArray.push(['Train Position, Detection & Integrity', 'Total LCC', 0, 0]);
-    dataTabelArray.push(['IXL', 'Total LCC', 0, 0]);
-    dataTabelArray.push(['Overall System', 'Total LCC', 0, 0]);
-    dataTabelArray.push(['Test Equipment', 'Total LCC', 0, 0]);
-    
-    dataTabelArray.push(['Point / Switch machines', 'Trackside Equipment', 0, 0]);
-    dataTabelArray.push(['Staff / Passenger crossing protection device', 'Trackside Equipment', 0, 0]);
-    dataTabelArray.push(['Level Crossing', 'Trackside Equipment', 0, 0]);
-
-    dataTabelArray.push(['RBC in 2oo3PF', 'ATC (Trackside)', 0, 0]);
-    dataTabelArray.push(['NTG Batch 3 with UDP Router in rack with power supply', 'ATC (Trackside)', 0, 0]);
-    dataTabelArray.push(['KMS', 'ATC (Trackside)', 0, 0]);
-    dataTabelArray.push(['HHT', 'ATC (Trackside)', 0, 0]);
-    dataTabelArray.push(['Euro-encoder', 'ATC (Trackside)', 0, 0]);
-    dataTabelArray.push(['Trackside', 'ATC (Trackside)', 0, 0]);
-
-    dataTabelArray.push(['TCC TMS_', 'TCC TMS', 0, 0]);
-    dataTabelArray.push(['TMS Equipment in M-TOB', 'TCC TMS', 0, 0]);
-    dataTabelArray.push(['TMS Equipment in S-TOB', 'TCC TMS', 0, 0]);
-
-    dataTabelArray.push(['Centralised Train Detection (Axle counter)', 'Train Position, Detection & Integrity', 0, 0]);
-
-    dataTabelArray.push(['CIXL (SML 400 GP BL2)', 'IXL', 0, 0]);
-    dataTabelArray.push(['Interlocking', 'IXL', 0, 0]);
-
-    dataTabelArray.push(['Power, UPS & Batteries', 'Overall System', 0, 0]);
-    dataTabelArray.push(['Miscellaneous equipment', 'Overall System', 0, 0]);
-    dataTabelArray.push(['Shelter (with redundant UPS/batteries)', 'Overall System', 0, 0]);
-
-    dataTabelArray.push(['Test Specific Equipment', 'Test Equipment', 0, 0]);
-
 
     $(".data-table tbody tr").each(function (index) {
         var ID = $(this).find("td:nth-child(1)").text();
@@ -199,7 +129,7 @@ function TableToArray() {
         var Product = $(this).find("td:nth-child(4)").text();
         var qty = Number($(this).find("td:nth-child(6)").text());
 
-        dataTabelArray.push([Product + '. ID: ' +  ID.toString(), SubSystemModule, qty, qty]);
+        dataTabelArray.push([SubSystem + '|' + SubSystemModule + '|' + Product, qty]);
 
     });
     return dataTabelArray;

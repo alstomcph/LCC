@@ -13,8 +13,9 @@ function fetchdata(query){
 
 function succes(data){
     $('#table').html(data);
+    readTableToSunburst();
 }
 
 function error(){
-    alert('error');
+    alert('error in query');
 }

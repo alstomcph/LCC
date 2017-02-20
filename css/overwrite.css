@@ -1,5 +1,6 @@
 body {
-	font-size: 12px;
+    font-family: 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+	font-size: 9px;
 	padding: 1em;
 }
 td {
