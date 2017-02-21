@@ -74,11 +74,12 @@ function createVisualization(json) {
         .sort(function (a, b) { return b.value - a.value; });
 
     // For efficiency, filter nodes to keep only those large enough to see.
-    var nodes = partition(root).descendants()
-        .filter(function (d) {
+    var nodes = partition(root).descendants();
+    /*    .filter(function (d) {
             return (d.x1 - d.x0 > 0.005); // 0.005 radians = 0.29 degrees
         });
-
+    */
+    //setup chart behavior 
     var path = vis.data([json]).selectAll("path")
         .data(nodes)
         .enter().append("svg:path")
@@ -87,18 +88,100 @@ function createVisualization(json) {
         .attr("fill-rule", "evenodd")
         .style("fill", function (d) { return colors[d.data.name]; })
         .style("opacity", 1)
-        .on("mouseover", mouseover);
+        .on("mouseover", mouseover)
+        .on("click", mouseclick)
+        .each(stash);    
 
     // Add the mouseleave handler to the bounding circle.
     d3.select("#container").on("mouseleave", mouseleave);
 
     // Get total size of the tree = value of root node from partition.
     totalSize = path.datum().value;
+
+    //setup switch to table dataset onclick---------
+    d3.selectAll("#Update_button").on("click", function change() {
+        //var value = this.value === "count" ? function() { return 1; } : function(d) { return d.size; };
+        var csv = TableToArray();
+        var json = buildHierarchy(csv);
+        var root = d3.hierarchy(json)
+            .sum(function (d) { return d.size; })
+            .sort(function (a, b) { return b.value - a.value; });
+        var nodes = partition(root).descendants();
+                /*        .filter(function (d) {
+                            return (d.x1 - d.x0 > 0.005); // 0.005 radians = 0.29 degrees
+                        });
+                */
+        path
+            .data(nodes)
+            .transition()
+            .duration(1000)
+            .attrTween("d", arcTweenData);
+        totalSize = path.datum().value;
+        console.info(totalSize);
+    });
+
+    //setup animation functions-------------
+    function stash(d) {
+        d.x0_pre = d.x0;
+        d.x1_pre = d.x1;
+    }
+    
+    // When switching data: interpolate the arcs in data space.
+    function arcTweenData(a, i) {
+        //var x = d3.scaleLinear().range([0, 2 * Math.PI]);
+        //var y = d3.scaleSqrt().range([0, radius]);
+        //var oi = d3.interpolate({x: a.x0, dx: a.dx0}, a);
+        var oi = d3.interpolateObject({x0: 0, x1: 0}, a);
+        function tween(t) {
+            var b = oi(t);
+            //a.x0 = b.x0;
+            //a.x1 = b.x1;
+            return arc(b);
+        }
+
+        /*
+        if (i == 0) {
+            // If we are on the first arc, adjust the x domain to match the root node
+            // at the current zoom level. (We only need to do this once.)
+            
+            //var xd = d3.interpolate(x.domain(), [node.x, node.x + node.dx]);
+            return function (t) {
+                //x.domain(xd(t));
+                return tween(t);
+            };
+            
+        } else {
+            return tween;
+        }*/
+        return tween;
+    }
+}
+
+
+//mouse click on svg elements runs query and updates suitable
+function mouseclick(d){
+    var layer = d.depth;
+    var name = d.data.name;
+    var query = "SELECT * FROM const WHERE ";
+
+    switch(layer){
+        case 1:
+            query += "SubSystem = '" + name + "'";
+            updatedata(query);
+            break;
+        case 2:
+            query += "SubSystemModule = '" + name + "'";
+            updatedata(query);
+            break;
+        case 3:
+            query += "Product = '" + name + "'";
+            updatedata(query);
+            break;
+    }
 }
 
 // Fade all but the current sequence, and show it in the breadcrumb trail.
 function mouseover(d) {
-
     var percentage = (100 * d.value / totalSize).toPrecision(3);
     var percentageString = percentage + "%";
     if (percentage < 0.1) {
@@ -140,7 +223,7 @@ function mouseleave(d) {
     // Transition each segment to full opacity and then reactivate it.
     d3.selectAll("path")
         .transition()
-        .duration(1000)
+        .duration(500)
         .style("opacity", 1)
         .on("end", function () {
             d3.select(this).on("mouseover", mouseover);

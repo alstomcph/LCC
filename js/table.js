@@ -19,3 +19,16 @@ function succes(data){
 function error(){
     alert('error in query');
 }
+
+
+function updatedata(query){
+    $.ajax({
+        url: "database.php",
+        dataType: "html",
+        data: {query: query},
+        async: true,
+        success: function(data){
+            $('#table').html(data);},
+        error: error
+    });
+}
