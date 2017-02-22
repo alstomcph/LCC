@@ -8,8 +8,9 @@ var b = {
     w: 240, h: 30, s: 3, t: 10
 };
 
-//to store previous state
+//store states variables
 var previousData = d3.local();
+var currentData = d3.local();
 
 // Mapping of step names to colors.
 var colors = {
@@ -78,16 +79,28 @@ function createVisualization(json) {
         .style("opacity", 1)
         .on("mouseover", mouseover)
         .on("click", mouseclick)
-        .each(stash);    
+        .each(stashCurrent);    
 
     // Add the mouseleave handler to the bounding circle.
     d3.select("#container").on("mouseleave", mouseleave);
+
+    //selection changed
+    d3.selectAll("input").on("change", function(){
+        switch(this.value){
+            case 'previous':
+                alert('previous');
+            break;
+            case 'current':
+                alert('current');
+            break;
+        }
+    })
 
     // Get total size of the tree = value of root node from partition.
     totalSize = path.datum().value;
 
     //setup switch to table dataset onclick---------
-    d3.select("#Update_button").on("click", function change() {
+    d3.select("#Update_button").on("click", function() {
         var csv = TableToArray();
         var json = buildHierarchy(csv);
         var root = d3.hierarchy(json)
@@ -99,20 +112,21 @@ function createVisualization(json) {
             .transition()
             .duration(1000)
             .attrTween("d", arcTweenData)
-            .on("end", stash);
+            .on("end", stashCurrent);
 
         totalSize = path.datum().value;
         d3.select("#total_value").text(totalSize);
     });
 
     //setup animation functions-------------
-    function stash(d) {
-        previousData.set(this, d)
+    function stashCurrent(d) {
+        previousData.set(this, currentData.get(this));
+        currentData.set(this, d)
     }
-    
+
     // When switching data: interpolate the arcs in data space.
     function arcTweenData(a, i) {
-        var oi = d3.interpolateObject({x0: previousData.get(this).x0, x1: previousData.get(this).x1}, a);
+        var oi = d3.interpolateObject({x0: currentData.get(this).x0, x1: currentData.get(this).x1}, a);
         function tween(t) {
             var b = oi(t);
             return arc(b);
