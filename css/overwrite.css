@@ -6,12 +6,11 @@ body {
 td {
 	white-space: nowrap;
 }
-/*
-#charts{
-	display: inline-flex;
+label{
+    display: inline!important
 }
-
-#chart{
-	width: 1890px;
+button{
+    background-color:#606c76;
+    border:#606c76;
+    border-radius:0;
 }
-*/

@@ -5,8 +5,11 @@ var radius = Math.min(width, height) / 2;
 
 // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
 var b = {
-    w: 220, h: 30, s: 3, t: 10
+    w: 240, h: 30, s: 3, t: 10
 };
+
+//to store previous state
+var previousData = d3.local();
 
 // Mapping of step names to colors.
 var colors = {
@@ -37,17 +40,6 @@ var arc = d3.arc()
     .innerRadius(function (d) { return Math.sqrt(d.y0); })
     .outerRadius(function (d) { return Math.sqrt(d.y1); });
 
-// Use d3.text and d3.csvParseRows so that we do not need to have a header
-// row, and can receive the csv as an array of arrays.
-
-/*
-d3.text("Book3.csv", function (text) {
-    var csv = d3.csvParseRows(text);
-    var json = buildHierarchy(csv);
-    createVisualization(json);
-});
-*/
-
 function readTableToSunburst(){
     var csv = TableToArray();
     var json = buildHierarchy(csv);
@@ -70,15 +62,11 @@ function createVisualization(json) {
 
     // Turn the data into a d3 hierarchy and calculate the sums.
     var root = d3.hierarchy(json)
-        .sum(function (d) { return d.size; })
-        .sort(function (a, b) { return b.value - a.value; });
+        .sum(function (d) { return d.size; });
 
     // For efficiency, filter nodes to keep only those large enough to see.
     var nodes = partition(root).descendants();
-    /*    .filter(function (d) {
-            return (d.x1 - d.x0 > 0.005); // 0.005 radians = 0.29 degrees
-        });
-    */
+
     //setup chart behavior 
     var path = vis.data([json]).selectAll("path")
         .data(nodes)
@@ -99,64 +87,39 @@ function createVisualization(json) {
     totalSize = path.datum().value;
 
     //setup switch to table dataset onclick---------
-    d3.selectAll("#Update_button").on("click", function change() {
-        //var value = this.value === "count" ? function() { return 1; } : function(d) { return d.size; };
+    d3.select("#Update_button").on("click", function change() {
         var csv = TableToArray();
         var json = buildHierarchy(csv);
         var root = d3.hierarchy(json)
-            .sum(function (d) { return d.size; })
-            .sort(function (a, b) { return b.value - a.value; });
+            .sum(function (d) { return d.size; });
         var nodes = partition(root).descendants();
-                /*        .filter(function (d) {
-                            return (d.x1 - d.x0 > 0.005); // 0.005 radians = 0.29 degrees
-                        });
-                */
+
         path
             .data(nodes)
             .transition()
             .duration(1000)
-            .attrTween("d", arcTweenData);
+            .attrTween("d", arcTweenData)
+            .on("end", stash);
+
         totalSize = path.datum().value;
-        console.info(totalSize);
+        d3.select("#total_value").text(totalSize);
     });
 
     //setup animation functions-------------
     function stash(d) {
-        d.x0_pre = d.x0;
-        d.x1_pre = d.x1;
+        previousData.set(this, d)
     }
     
     // When switching data: interpolate the arcs in data space.
     function arcTweenData(a, i) {
-        //var x = d3.scaleLinear().range([0, 2 * Math.PI]);
-        //var y = d3.scaleSqrt().range([0, radius]);
-        //var oi = d3.interpolate({x: a.x0, dx: a.dx0}, a);
-        var oi = d3.interpolateObject({x0: 0, x1: 0}, a);
+        var oi = d3.interpolateObject({x0: previousData.get(this).x0, x1: previousData.get(this).x1}, a);
         function tween(t) {
             var b = oi(t);
-            //a.x0 = b.x0;
-            //a.x1 = b.x1;
             return arc(b);
         }
-
-        /*
-        if (i == 0) {
-            // If we are on the first arc, adjust the x domain to match the root node
-            // at the current zoom level. (We only need to do this once.)
-            
-            //var xd = d3.interpolate(x.domain(), [node.x, node.x + node.dx]);
-            return function (t) {
-                //x.domain(xd(t));
-                return tween(t);
-            };
-            
-        } else {
-            return tween;
-        }*/
         return tween;
     }
 }
-
 
 //mouse click on svg elements runs query and updates suitable
 function mouseclick(d){
