@@ -3,9 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>Life Cycle Cost</title>
+        <link rel="icon" href="images/favicon.png">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
-		<link rel="stylesheet" href="css/milligram.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+        <link rel="stylesheet" href="css/milligram.min.css">
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
         <link rel="stylesheet" type="text/css" href="css/sequences.css"/>
         <link rel="stylesheet" href="css/overwrite.css">
@@ -24,11 +25,8 @@
             <h4>Total Qty: <span id="total_value"></span></h4>
 
             <div id="controls">
-                <button type="button" ID="Update_button">Update Chart from table</button>
-                <form id="forms">
-                    <label><input type="radio" name="mode" value="previous">Previous </label>
-                    <label><input type="radio" name="mode" value="current" checked>Current </label>
-                </form>
+                <button type="button" ID="initial_button">Initial chart</button>
+                <button type="button" ID="update_button">Update chart from table</button>
             </div>
             <div id="main">
                 <h3>Tree navigation + relative cost visualization</h3>

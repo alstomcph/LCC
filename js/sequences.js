@@ -19,7 +19,9 @@ var colors = {
     "Train Po...": "#de783b",
     "ATC (Tra...": "#6ab975",
     "TCC TMS...": "#a173d1",
-    "end": "#bbbbbb"
+    "end": "#bbbbbb",
+    "alstomRed": "#ef3f43",
+    "alstomBlue": "#1b3f94"
 };
 
 // Total size of all segments; we set this later, after loading the data.
@@ -75,7 +77,10 @@ function createVisualization(json) {
         .attr("display", function (d) { return d.depth ? null : "none"; })
         .attr("d", arc)
         .attr("fill-rule", "evenodd")
-        .style("fill", function (d) { return colors[d.data.name]; })
+        .style("fill", function (d) { 
+            //return colors[d.data.name]; 
+            //return colors["alstomRed"];
+        })
         .style("opacity", 1)
         .on("mouseover", mouseover)
         .on("click", mouseclick)
@@ -85,28 +90,26 @@ function createVisualization(json) {
     d3.select("#container").on("mouseleave", mouseleave);
 
     //selection changed
-    d3.selectAll("input").on("change", function(){
-        switch(this.value){
-            case 'previous':
-                alert('previous');
-            break;
-            case 'current':
-                alert('current');
-            break;
-        }
-    })
+    d3.select("#initial_button").on("click", function(){
+        path
+            .data(nodes)
+            .transition()
+            .duration(1000)
+            .attrTween("d", arcTweenData)
+            .on("end", stashCurrent);
+    });
 
     // Get total size of the tree = value of root node from partition.
     totalSize = path.datum().value;
 
     //setup switch to table dataset onclick---------
-    d3.select("#Update_button").on("click", function() {
+    d3.select("#update_button").on("click", function() {
         var csv = TableToArray();
         var json = buildHierarchy(csv);
         var root = d3.hierarchy(json)
             .sum(function (d) { return d.size; });
+        
         var nodes = partition(root).descendants();
-
         path
             .data(nodes)
             .transition()
@@ -116,11 +119,11 @@ function createVisualization(json) {
 
         totalSize = path.datum().value;
         d3.select("#total_value").text(totalSize);
+
     });
 
     //setup animation functions-------------
     function stashCurrent(d) {
-        previousData.set(this, currentData.get(this));
         currentData.set(this, d)
     }
 
