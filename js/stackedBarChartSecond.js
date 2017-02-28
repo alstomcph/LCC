@@ -30,7 +30,7 @@ var NamespaceSecond = (function(){
     var color = d3.scaleLinear()
         .domain([0,n-1])
         //.range(["lightgrey", "black"])
-        .range(["lightSkyBlue ", "darkblue"])
+        .range(["lightSkyBlue ", "royalblue"])
         //.interpolate(d3.interpolateHcl);
 
     var series = g.selectAll(".series")

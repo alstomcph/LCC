@@ -24,3 +24,12 @@ button{
     margin-top: 3rem;
     margin-bottom: 0rem;
 }
+#content {
+    position: relative;
+}
+#content img {
+    width:60px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
