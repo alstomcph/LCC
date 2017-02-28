@@ -38,6 +38,7 @@ function init_chart(inDiv) {
         google.visualization.events.addListener(chart, 'select', selectHandler);
         google.visualization.events.addListener(chart, 'click', clickHandler);
         chart.draw(data, options);
+        setToggleViewEvent();
     }
 }
 
@@ -133,4 +134,13 @@ function TableToArray() {
 
     });
     return dataTabelArray;
+}
+function toggleButtonFirst(){
+    $("#firstChart").toggle();
+    $("#firstTable").toggle();
+}
+
+function toggleButtonSecond(){
+    $("#secondChart").toggle();
+    $("#secondTable").toggle();
 }

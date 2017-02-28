@@ -7,7 +7,10 @@ td {
 	white-space: nowrap;
 }
 label{
-    display: inline!important
+    display: inline!important;
+    font-size: 1rem;
+    vertical-align: top;
+    
 }
 button{
     background-color:#606c76;

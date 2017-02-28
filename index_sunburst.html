@@ -39,15 +39,22 @@
             </div>
             <div id="results">
                 <h3>Results</h3>
-                <h5 class="table_title">first one</h5>
+                <h5 class="table_title">first one | interpolated years</h5>
 
                 <div id="controls">
-                    <button type="button" ID="tableView">Table view</button>
-                    <button type="button" ID="chartView">Chart view</button>
+                    <button type="button" ID="toggleViewYear" onclick="toggleButtonFirst()">Toggle view</button>
+                </div>
+
+                <div id="firstChart" style="display:none">
+                    <form>
+                        <label><input type="radio" name="mode" value="grouped"> Grouped</label>
+                        <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
+                    </form>
+                    <svg width="1100" height="300"></svg>
                 </div>
 
                 <div>
-                    <table style="display: inline">
+                    <table id="firstTable" style="display: inline">
                         <thead>
                             <tr>
                                 <th>Year</th>
@@ -124,12 +131,15 @@
                 <h5 class="table_title">second one</h5>
 
                 <div id="controls">
-                    <button type="button" ID="tableView">Table view</button>
-                    <button type="button" ID="chartView">Chart view</button>
+                    <button type="button" id="toggleViewArea" onclick="toggleButtonSecond()">Toggle view</button>
+                </div>
+
+                <div id="secondChart" style="display:none">
+                    second chart to be here
                 </div>
 
                 <div>
-                    <table style="display: inline">
+                    <table  id="secondTable" style="display: inline">
                         <thead>
                             <tr>
                                 <th>Area</th>
@@ -205,5 +215,6 @@
         </div>
         
         <script type="text/javascript" src="js/sequences.js"></script>
+        <script type="text/javascript" src="js/stackedBarChart.js"></script>
     </body>
 </html>
