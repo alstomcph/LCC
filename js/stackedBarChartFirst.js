@@ -31,7 +31,7 @@ var color = d3.scaleLinear()
     .domain([0,n-1])
     //.range(["lightgrey", "black"])
     .range(["orange", "red"])
-    .interpolate(d3.interpolateHcl);
+    //.interpolate(d3.interpolateHcl);
 
 var series = g.selectAll(".series")
     .data(y01z)
@@ -58,7 +58,7 @@ g.append("g")
         .tickSize(0)
         .tickPadding(6));
 
-d3.selectAll("input")
+d3.selectAll("#firstChart input")
     .on("change", changed);
 
 var timeout = d3.timeout(function () {

@@ -39,10 +39,10 @@
             </div>
             <div id="results">
                 <h3>Results</h3>
-                <h5 class="table_title">first one | interpolated years</h5>
+                <h5 class="table_title">Cumulative Total Maintenance Cost (k€) | interpolated years</h5>
 
                 <div id="controls">
-                    <button type="button" ID="toggleViewYear" onclick="toggleButtonFirst()">Toggle view</button>
+                    <button type="button" ID="toggleViewYear" onclick="toggleButtonFirst()">Toggle table/chart</button>
                 </div>
 
                 <div id="firstChart" style="display:none">
@@ -50,7 +50,7 @@
                         <label><input type="radio" name="mode" value="grouped"> Grouped</label>
                         <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
                     </form>
-                    <svg width="1100" height="300"></svg>
+                    <svg width="1100" height="220"></svg>
                 </div>
 
                 <div>
@@ -128,14 +128,18 @@
                     </table>
                 </div>
 
-                <h5 class="table_title">second one</h5>
+                <h5 class="table_title">Subsystems contribution to the total maintenance cost</h5>
 
                 <div id="controls">
-                    <button type="button" id="toggleViewArea" onclick="toggleButtonSecond()">Toggle view</button>
+                    <button type="button" id="toggleViewArea" onclick="toggleButtonSecond()">Toggle table/chart</button>
                 </div>
 
                 <div id="secondChart" style="display:none">
-                    second chart to be here
+                    <form>
+                        <label><input type="radio" name="mode" value="grouped"> Grouped</label>
+                        <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
+                    </form>
+                    <svg width="1100" height="220"></svg>
                 </div>
 
                 <div>
@@ -210,11 +214,15 @@
 
             <div id="editor" style="display: inline-block">
                 <h3>Cost parameters</h3>
+                <div id="controls">
+                    <button type="button" ID="toggleDriver" onclick="">Toggle drivers/calculated</button>
+                </div>
                 <div id="table"></div>
             </div>
         </div>
         
         <script type="text/javascript" src="js/sequences.js"></script>
-        <script type="text/javascript" src="js/stackedBarChart.js"></script>
+        <script type="text/javascript" src="js/stackedBarChartFirst.js"></script>
+        <script type="text/javascript" src="js/stackedBarChartSecond.js"></script>
     </body>
 </html>
