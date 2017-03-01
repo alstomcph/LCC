@@ -135,12 +135,17 @@ function TableToArray() {
     });
     return dataTabelArray;
 }
-function toggleButtonFirst(){
+function toggleButtonFirst() {
     $("#firstChart").toggle();
     $("#firstTable").toggle();
 }
 
-function toggleButtonSecond(){
+function toggleButtonSecond() {
     $("#secondChart").toggle();
     $("#secondTable").toggle();
+}
+
+function toggleButtonTable() {
+    $("#tableCalc").toggle();
+    $("#table").toggle();
 }

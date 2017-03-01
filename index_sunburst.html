@@ -11,11 +11,9 @@
         <link rel="stylesheet" type="text/css" href="css/sequences.css"/>
         <link rel="stylesheet" href="css/overwrite.css">
         <script src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script src="//d3js.org/d3.v4.min.js"></script>
+        <script src="js/d3.v4.min.js"></script>
         <script src="js/scripts.js"></script>
         <script src="js/table.js"></script>
-
     </head>
 
     <body>
@@ -219,8 +217,9 @@
             <div id="editor" style="display: inline-block">
                 <h3>Cost parameters</h3>
                 <div id="controls">
-                    <button type="button" ID="toggleDriver" onclick="">Toggle drivers/calculated</button>
+                    <button type="button" ID="toggleDriver" onclick="toggleButtonTable()">Toggle drivers/calculated</button>
                 </div>
+                <div id="tableCalc" style="display:none">Calculated table here</div>
                 <div id="table"></div>
             </div>
         </div>

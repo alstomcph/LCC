@@ -262,7 +262,17 @@ function updateBreadcrumbs(nodeArray, percentageString) {
         .attr("y", b.h / 2)
         .attr("dy", "0.35em")
         .attr("text-anchor", "middle")
-        .text(function (d) { return d.data.name; });
+        .text(function (d) {
+            var maxLength = 45;
+            if(d.data.name.length > maxLength) {
+                var name = d.data.name;
+                name = name.substr(0, maxLength) + "...";
+                return name;
+            }
+            else{
+                return d.data.name;
+            }
+        });
 
     // Merge enter and update selections; set position for all nodes.
     entering.merge(trail).attr("transform", function (d, i) {
