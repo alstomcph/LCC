@@ -149,3 +149,7 @@ function toggleButtonTable() {
     $("#tableCalc").toggle();
     $("#table").toggle();
 }
+
+function fadeOut(me){
+    $(me).fadeOut();
+}

@@ -18,7 +18,7 @@
 
     <body>
         <div>
-            <div id="content">
+            <div id="content" onclick="fadeOut(this)">
                 <img src="images/pdf-flat.png" title="Download report PDF" class="ribbon" />
             </div>
 
@@ -219,9 +219,50 @@
                 <div id="controls">
                     <button type="button" ID="toggleDriver" onclick="toggleButtonTable()">Toggle drivers/calculated</button>
                 </div>
-                <div id="tableCalc" style="display:none">Calculated table here</div>
+
+                <div id="tableCalc" style="display:none">
+                    <table  id="tableCalc" style="display: inline">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>SubSystem</th>
+                                <th>SubSystemModule</th>
+                                <th>Product</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                                <th>calculated</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>[formula]</td>
+                                <td>[formula]</td>
+                                <td>[formula]</td>
+                                <td>[formula]</td>
+                                <td>[formula]</td>
+                                <td>[formula]</td>
+                                <td>[formula]</td>
+                                <td>[formula]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
                 <div id="table"></div>
-            </div>
+            </div>         
         </div>
         
         <script type="text/javascript" src="js/sequences.js"></script>
